@@ -39,19 +39,18 @@ async function handleRequest(request) {
   var raw = true
   var rawparam = getParameterByName('json')
   if(rawparam === "true") raw = false
-
-
-
+  if( vodRequest ) {
+    isVod = true
+    resource = vodRequest
+  }
 
   let accessToken = await getAccessToken(resource, isVod)
   let playlist = await getPlaylist(resource, accessToken, isVod)
   if (!raw) playlist = JSON.stringify(parsePlaylist(playlist))
   return new Response(playlist, {status: 200})
-
 }
 
-// const clientId = "kimne78kx3ncx6brgo4mv6wki5h1ko"; // streamlink
-const clientId = "jzkbprff40iqj646a697cyrvl0zt2m6"; // twoku
+const clientId = "kimne78kx3ncx6brgo4mv6wki5h1ko"; // generic
 
 async function getAccessToken(id, isVod) {
     const data = {
